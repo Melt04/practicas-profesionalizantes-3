@@ -2,9 +2,7 @@ function addValue() {
   if (this.innerText) {
     if (this.innerText === '=') {
       calculate()
-
     } else {
-
       document.getElementById('result').value += this.innerText
     }
   }
@@ -34,21 +32,24 @@ function onApplicationBoostrap() {
   const body = document.querySelector('body')
   const input = document.createElement('input')
   input.id = 'result'
-
   for (let i = 0; i < 10; i++) {
     buttonArray.push(createButton(i))
   }
   buttonArray.push(createButton("+"))
   buttonArray.push(createButton("-"))
   buttonArray.push(createButton("="))
+  buttonArray.push(createButton("."))
+  buttonArray.push(createButton("*"))
+
+  buttonArray.push(createButton("/"))
+  buttonArray.push(createButton("C"))
+
   body.appendChild(divCalculator)
   divCalculator.appendChild(divDisplay)
   divCalculator.appendChild(divKeys)
   divDisplay.appendChild(input)
-
   buttonArray.forEach(button => {
     divKeys.appendChild(button)
-
   })
 }
 
