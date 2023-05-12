@@ -1,17 +1,23 @@
-function addNumber (num) {
+function addNumber(num) {
   document.getElementById('result').value += num
 }
 
-function addOperator (operator) {
+function addOperator(operator) {
   document.getElementById('result').value += operator
 }
 
-function clearDisplay () {
+function clearDisplay() {
   document.getElementById('result').value = ''
 }
 
-function calculate () {
+function calculate() {
   const value = document.getElementById('result').value
   const result = eval(value)
   document.getElementById('result').value = result
 }
+
+function onApplicationBoostrap() {
+  alert(2)
+}
+
+window.addEventListener('load', onApplicationBoostrap)
