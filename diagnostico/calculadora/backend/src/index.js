@@ -41,5 +41,5 @@ const server = http.createServer((req, res) => {
 const port = 3000
 
 server.listen(port, () => {
-  console.log('Servidor Node en ejecución en el puerto 3000')
+  console.log('Server running in  3000')
 })
