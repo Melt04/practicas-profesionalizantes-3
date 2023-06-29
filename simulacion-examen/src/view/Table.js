@@ -1,19 +1,15 @@
 class Table extends HTMLElement {
-  constructor () {
+  constructor (headers) {
     super()
     this.table = document.createElement('table')
     const thead = document.createElement('thead')
     const headerRow = document.createElement('tr')
-    headerRow.innerHTML = `
-      <th>Tipo</th>
-      <th>Descripción</th>
-      <th>Prioridad</th>
-    `
+    headerRow.innerHTML = headers
     thead.appendChild(headerRow)
     this.table.appendChild(thead)
     this.appendChild(this.table)
   }
-  // Crear la estructura de la tabla
+
   addRow (data) {
     const { type, desc, prior } = data
     const newRow = document.createElement('tr')
@@ -32,6 +28,5 @@ class Table extends HTMLElement {
   }
 }
 
-// Registrar el componente de la tabla
 customElements.define('custom-table', Table)
 export { Table }

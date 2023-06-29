@@ -3,7 +3,11 @@ import { Table } from './Table.js'
 class View extends HTMLDivElement {
   constructor () {
     super()
-    this.table = new Table()
+    this.table = new Table(`
+      <th>Tipo</th>
+      <th>Descripción</th>
+      <th>Prioridad</th>
+    `)
     this.labelType = document.createElement('label')
     this.labelPrior = document.createElement('label')
     this.labelType.innerHTML = 'Tipo'
