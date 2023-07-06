@@ -16,13 +16,11 @@ class ButtonStateModel {
     return this.value
   }
 }
-
 class ButtonStateModelDoubleIncrement {
   constructor () {
     this.max = MAX
     this.value = 0
   }
-
   increment () {
     if (!this.isValueMax()) {
       this.value = this.value + INCREMENT
@@ -41,7 +39,7 @@ class ButtonStateModelDoubleIncrement {
     return this.value
   }
   isValueMax () {
-    return this.value + 2 >= this.max
+    return this.read() + 2 >= this.max
   }
 }
 
@@ -67,7 +65,6 @@ class ButtonStateController {
           cancelable: true
         }
       )
-
       document.dispatchEvent(event)
     })
   }
@@ -79,19 +76,19 @@ class ButtonStateController {
 }
 
 class ButtonStateView extends HTMLElement {
-  constructor () {
+  constructor (model) {
     super()
-    this.innerModel = new ButtonStateModelDoubleIncrement()
+    this.innerModel = new model()
     this.innerController = new ButtonStateController(this.innerModel, this)
     this.customButton = document.createElement('button')
-
     this.appendChild(this.customButton)
     this.red = INITIAL_COLOR_RED
     this.blue = INITIAL_COLOR_BLUE
     this.green = INITIAL_COLOR_GREEN
     this.updateColor(this.red, this.green, this.blue)
     document.addEventListener('updateColor', e => {
-      this.red = this.red - e.detail.data
+      const newValue = this.getColorRed() - e.detail.data
+      this.setColorRed(newValue)
       this.updateColor(this.red, this.green, this.blue)
     })
   }
@@ -104,6 +101,12 @@ class ButtonStateView extends HTMLElement {
   setValue (value) {
     this.customButton.innerText = value.toString()
   }
+  setColorRed (value) {
+    this.red = value
+  }
+  getColorRed () {
+    return this.red
+  }
   updateColor (red, green, blue) {
     this.customButton.style.color = `rgb(${red},${green},${blue})`
   }
@@ -111,7 +114,7 @@ class ButtonStateView extends HTMLElement {
 customElements.define('x-button', ButtonStateView)
 
 function main () {
-  let testButton = new ButtonStateView()
+  let testButton = new ButtonStateView(ButtonStateModelDoubleIncrement)
   document.body.appendChild(testButton)
 }
 
