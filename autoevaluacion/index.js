@@ -1,3 +1,4 @@
+const MAX = 255
 class ButtonStateModel {
   constructor () {
     this.value = 0
@@ -9,6 +10,25 @@ class ButtonStateModel {
 
   read () {
     return this.value
+  }
+}
+
+class ButtonStateModelDoubleIncrement {
+  constructor () {
+    this.max = MAX
+    this.value = 0
+  }
+
+  increment () {
+    if (!this.isValueMax()) {
+      this.value = this.value + 2
+    }
+  }
+  read () {
+    return this.value
+  }
+  isValueMax () {
+    return this.value + 2 >= this.max
   }
 }
 
@@ -31,10 +51,8 @@ class ButtonStateController {
 class ButtonStateView extends HTMLElement {
   constructor () {
     super()
-
-    this.innerModel = new ButtonStateModel()
+    this.innerModel = new ButtonStateModelDoubleIncrement()
     this.innerController = new ButtonStateController(this.innerModel, this)
-
     this.customButton = document.createElement('button')
     this.appendChild(this.customButton)
   }
