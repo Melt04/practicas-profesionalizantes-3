@@ -1,4 +1,8 @@
 const MAX = 255
+const INITIAL_COLOR_RED = 255
+const INITIAL_COLOR_GREEN = 0
+const INITIAL_COLOR_BLUE = 0
+const INCREMENT = 2
 class ButtonStateModel {
   constructor () {
     this.value = 0
@@ -21,7 +25,16 @@ class ButtonStateModelDoubleIncrement {
 
   increment () {
     if (!this.isValueMax()) {
-      this.value = this.value + 2
+      this.value = this.value + INCREMENT
+      const event = new CustomEvent(
+        'modelClick',
+        { detail: { data: INCREMENT } },
+        {
+          bubbles: true,
+          cancelable: true
+        }
+      )
+      document.dispatchEvent(event)
     }
   }
   read () {
@@ -40,6 +53,23 @@ class ButtonStateController {
 
   init () {
     this.innerView.setValue(this.innerModel.read())
+    console.log(this.innerModel)
+    document.addEventListener('modelClick', e => {
+      const event = new CustomEvent(
+        'updateColor',
+        {
+          detail: {
+            data: e.detail.data
+          }
+        },
+        {
+          bubbles: true,
+          cancelable: true
+        }
+      )
+
+      document.dispatchEvent(event)
+    })
   }
 
   onclick () {
@@ -54,7 +84,16 @@ class ButtonStateView extends HTMLElement {
     this.innerModel = new ButtonStateModelDoubleIncrement()
     this.innerController = new ButtonStateController(this.innerModel, this)
     this.customButton = document.createElement('button')
+
     this.appendChild(this.customButton)
+    this.red = INITIAL_COLOR_RED
+    this.blue = INITIAL_COLOR_BLUE
+    this.green = INITIAL_COLOR_GREEN
+    this.updateColor(this.red, this.green, this.blue)
+    document.addEventListener('updateColor', e => {
+      this.red = this.red - e.detail.data
+      this.updateColor(this.red, this.green, this.blue)
+    })
   }
 
   connectedCallback () {
@@ -65,8 +104,10 @@ class ButtonStateView extends HTMLElement {
   setValue (value) {
     this.customButton.innerText = value.toString()
   }
+  updateColor (red, green, blue) {
+    this.customButton.style.color = `rgb(${red},${green},${blue})`
+  }
 }
-
 customElements.define('x-button', ButtonStateView)
 
 function main () {
