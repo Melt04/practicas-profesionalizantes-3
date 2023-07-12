@@ -47,7 +47,7 @@ class Model extends EventTarget {
       alert('Contacto no encontrado')
     }
   }
-  updateTable () {
+  allContacts () {
     const allContacts = JSON.parse(localStorage.getItem(CONTACTS)) || []
     this.dispatchEvent(new CustomEvent('clearTable'))
     allContacts.forEach(({ id, name, lastName, tel, type }) => {

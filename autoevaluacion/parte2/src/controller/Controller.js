@@ -7,7 +7,7 @@ class Controller {
     this.view.buttonDelete.addEventListener('click', e => {
       this.deleteContact(e)
     })
-    this.view.buttonUpdate.addEventListener('click', e => this.update(e))
+    this.view.buttonUpdate.addEventListener('click', e => this.allContacts(e))
 
     this.model.addEventListener('updateList', this.handleModelChange.bind(this))
     this.model.addEventListener(
@@ -35,9 +35,9 @@ class Controller {
       this.view.inputTypeContact.value
     )
   }
-  update (e) {
+  allContacts (e) {
     e.preventDefault()
-    this.model.updateTable()
+    this.model.allContacts()
   }
   handleModelChange (event) {
     const eventData = event.detail
